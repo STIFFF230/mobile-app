@@ -1,30 +1,19 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Prueba de humo: verifica que la app arranca y muestra el splash inicial.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:upb_cientifica/main.dart';
+import 'package:upb_cientifica/app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('La app arranca y muestra la pantalla de splash', (WidgetTester tester) async {
+    await tester.pumpWidget(const UpbCientificaApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('UPB Científica'), findsOneWidget);
+    expect(find.byIcon(Icons.cloud), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Deja que el temporizador del splash (3s) se complete para no dejar
+    // timers pendientes al finalizar la prueba.
+    await tester.pump(const Duration(seconds: 4));
   });
 }
