@@ -17,11 +17,10 @@ const List<_TabDef> _tabs = [
   _TabDef(NavTab.inicio, 'Inicio', Icons.home_outlined),
   _TabDef(NavTab.archivos, 'Archivos', Icons.folder_open_outlined),
   _TabDef(NavTab.hpc, 'HPC', Icons.memory_outlined),
-  _TabDef(NavTab.monitoreo, 'Monitoreo', Icons.monitor_heart_outlined),
   _TabDef(NavTab.perfil, 'Perfil', Icons.person_outline),
 ];
 
-/// Barra inferior con 5 pestañas y botón flotante central de acción.
+/// Barra inferior con 4 pestañas y botón flotante central de acción.
 /// Equivalente a components/BottomNav.tsx.
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
@@ -39,53 +38,61 @@ class BottomNav extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: SafeArea(
         top: false,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            for (final t in _tabs.sublist(0, midpoint))
-              _TabButton(tab: t, active: nav.activeTab == t.tab, onTap: () => nav.handleTabPress(t.tab)),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 0),
-                  Transform.translate(
-                    offset: const Offset(0, -16),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        customBorder: const CircleBorder(),
-                        onTap: () => nav.navigate(AppScreen.createJob),
-                        child: Container(
-                          width: 52,
-                          height: 52,
-                          decoration: BoxDecoration(
-                            color: AppColors.blue,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.blue.withValues(alpha: 0.4),
-                                blurRadius: 14,
-                                offset: const Offset(0, 4),
+        child: SizedBox(
+          height: 58,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              for (final t in _tabs.sublist(0, midpoint))
+                _TabButton(tab: t, active: nav.activeTab == t.tab, onTap: () => nav.handleTabPress(t.tab)),
+              Expanded(
+                child: SizedBox(
+                  height: 58,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Positioned(
+                        top: -18,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            customBorder: const CircleBorder(),
+                            onTap: () => nav.navigate(AppScreen.createJob),
+                            child: Container(
+                              width: 52,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                color: AppColors.blue,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.blue.withValues(alpha: 0.4),
+                                    blurRadius: 14,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                               ),
-                            ],
+                              child: const Icon(Icons.add, color: Colors.white, size: 24),
+                            ),
                           ),
-                          child: const Icon(Icons.add, color: Colors.white, size: 24),
                         ),
                       ),
-                    ),
+                      const Positioned(
+                        top: 39,
+                        child: Text(
+                          'Nuevo',
+                          style: TextStyle(fontSize: 10, color: AppColors.blue, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 3),
-                  const Text(
-                    'Nuevo',
-                    style: TextStyle(fontSize: 10, color: AppColors.blue, fontWeight: FontWeight.w500),
-                  ),
-                ],
+                ),
               ),
-            ),
-            for (final t in _tabs.sublist(midpoint))
-              _TabButton(tab: t, active: nav.activeTab == t.tab, onTap: () => nav.handleTabPress(t.tab)),
-          ],
+              for (final t in _tabs.sublist(midpoint))
+                _TabButton(tab: t, active: nav.activeTab == t.tab, onTap: () => nav.handleTabPress(t.tab)),
+            ],
+          ),
         ),
       ),
     );
@@ -105,31 +112,30 @@ class _TabButton extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 2),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 3,
-                child: active
-                    ? Container(
-                        width: 32,
-                        decoration: const BoxDecoration(
-                          color: AppColors.blue,
-                          borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
-                        ),
-                      )
-                    : null,
-              ),
-              const SizedBox(height: 3),
-              Icon(tab.icon, size: 22, color: color),
-              const SizedBox(height: 3),
-              Text(
-                tab.label,
-                style: TextStyle(fontSize: 10, color: color, fontWeight: active ? FontWeight.w600 : FontWeight.w400),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 3,
+              child: active
+                  ? Container(
+                      width: 32,
+                      decoration: const BoxDecoration(
+                        color: AppColors.blue,
+                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+                      ),
+                    )
+                  : null,
+            ),
+            const SizedBox(height: 8),
+            Icon(tab.icon, size: 22, color: color),
+            const SizedBox(height: 3),
+            Text(
+              tab.label,
+              style: TextStyle(fontSize: 10, color: color, fontWeight: active ? FontWeight.w600 : FontWeight.w400),
+            ),
+            const SizedBox(height: 2),
+          ],
         ),
       ),
     );

@@ -14,7 +14,6 @@ import 'views/screens/hpc_jobs_screen.dart';
 import 'views/screens/job_detail_screen.dart';
 import 'views/screens/login_screen.dart';
 import 'views/screens/mfa_screen.dart';
-import 'views/screens/monitoring_screen.dart';
 import 'views/screens/photo_album_screen.dart';
 import 'views/screens/profile_screen.dart';
 import 'views/screens/splash_screen.dart';
@@ -52,11 +51,14 @@ class _RootShell extends StatelessWidget {
     final nav = context.watch<NavigationController>();
 
     return Scaffold(
-      appBar: nav.showChrome ? const TopBar() : null,
       body: SafeArea(
-        top: !nav.showChrome,
         bottom: false,
-        child: _buildScreen(nav.screen),
+        child: Column(
+          children: [
+            if (nav.showChrome) const TopBar(),
+            Expanded(child: _buildScreen(nav.screen)),
+          ],
+        ),
       ),
       bottomNavigationBar: nav.showChrome ? const BottomNav() : null,
     );
@@ -77,7 +79,6 @@ class _RootShell extends StatelessWidget {
       AppScreen.hpc => const HpcJobsScreen(),
       AppScreen.createJob => const CreateJobScreen(),
       AppScreen.jobDetail => const JobDetailScreen(),
-      AppScreen.monitoring => const MonitoringScreen(),
       AppScreen.alerts => const AlertsScreen(),
       AppScreen.profile => const ProfileScreen(),
       AppScreen.admin => const AdminScreen(),

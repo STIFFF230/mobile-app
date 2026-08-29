@@ -25,7 +25,6 @@ const List<_QuickLink> _quickLinks = [
   _QuickLink(Icons.image_outlined, 'Álbum', AppColors.warning, AppColors.warningLight, AppScreen.photos),
   _QuickLink(Icons.play_circle_outline, 'Streaming', AppColors.error, AppColors.errorLight, AppScreen.streaming),
   _QuickLink(Icons.memory, 'HPC', AppColors.purple, AppColors.purpleLight, AppScreen.hpc),
-  _QuickLink(Icons.monitor_heart_outlined, 'Monitoreo', AppColors.teal, AppColors.tealLight, AppScreen.monitoring),
 ];
 
 /// Pantalla principal / dashboard, equivalente a screens/DashboardScreen.tsx.
