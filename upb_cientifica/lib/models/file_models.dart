@@ -96,8 +96,20 @@ const List<String> fileMenuActions = [
   'Descargar',
   'Compartir',
   'Renombrar',
-  'Mover',
   'Versiones',
   'Permisos',
   'Eliminar',
+];
+
+/// Una carpeta se descarga como ZIP.
+const List<String> folderMenuActions = [
+  'Descargar como ZIP',
+  'Renombrar',
+  'Eliminar',
+];
+
+/// En la papelera solo se restaura o se elimina para siempre.
+const List<String> trashMenuActions = [
+  'Restaurar',
+  'Eliminar definitivamente',
 ];

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../api_client.dart';
 import '../env.dart';
 import 'conversion.dart';
@@ -133,6 +135,14 @@ class ServicioArchivos {
   Future<void> dejarDeCompartir(String ruta, String correo) =>
       _api.post('/$_s/files/compartir',
           query: {'ruta': ruta, 'correo': correo, 'accion': 'revoke'});
+
+  /// Baja un archivo a [destino] sin reunirlo en memoria. Una carpeta llega
+  /// como ZIP: el servicio lo arma al vuelo.
+  Future<void> descargar(String ruta, File destino, {String? propietario}) =>
+      _api.getFile('/$_s/files/download', destino, query: {
+        'ruta': ruta,
+        if (propietario != null && propietario.isNotEmpty) 'propietario': propietario,
+      });
 
   /// URL de descarga con el token incrustado, para abrir o previsualizar.
   Future<String> urlDescarga(String ruta) =>
